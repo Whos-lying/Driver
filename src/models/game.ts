@@ -1,4 +1,5 @@
 import Player from './player';
+import Wiki from '../services/wiki';
 
 export default class Game {
   players: Player[]
@@ -33,7 +34,20 @@ export default class Game {
     return maxPlayer;
   }
 
+  async setWikis(){
+    const numPlayers = this.players.length;
+
+    const articles: any[] = await Wiki.getArticles(numPlayers);
+
+    this.players.forEach(player => {
+      const { title, source, extract } = articles.pop();
+
+      player.setWiki(source, title, extract);
+    });
+  }
+
   getRandomArticle(){
+    //need to change this
     return this.players[0].getWiki();
   }
 }

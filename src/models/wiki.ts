@@ -1,4 +1,4 @@
-export default class Wiki{
+export default class Wiki {
   name: String;
   url: String;
   summary: String;

@@ -1,6 +1,6 @@
 import Wiki from './wiki';
 
-export default class Player{
+export default class Player {
   name: String;
   score: number;
   wiki: Wiki
@@ -23,9 +23,7 @@ export default class Player{
   }
 
   setWiki(url: String, article: String, summary: String){
-    let wikiObj = new Wiki(name, url, summary);
-
-    this.wiki = wikiObj;
+    this.wiki = new Wiki(article, url, summary);
   }
 
   getWiki(){
