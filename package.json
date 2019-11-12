@@ -2,11 +2,11 @@
   "name": "driver",
   "version": "1.0.0",
   "description": "Game driver with web sockets",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc src/server.ts",
-    "start": "npm run build && node src/server.js"
+    "build": "tsc src/index.ts",
+    "start": "npm run build && node src/index.js"
   },
   "author": "",
   "license": "ISC",

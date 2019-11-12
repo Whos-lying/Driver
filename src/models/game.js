@@ -36,28 +36,55 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
-var getArticles = function (num) { return __awaiter(void 0, void 0, void 0, function () {
-    var articles, found, data, title;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                articles = [];
-                found = [];
-                _a.label = 1;
-            case 1:
-                if (!(found.length !== num)) return [3 /*break*/, 3];
-                return [4 /*yield*/, axios_1["default"].get('https://en.wikipedia.org/api/rest_v1/page/random/summary')];
-            case 2:
-                data = (_a.sent()).data;
-                title = data.title;
-                if (!found.includes(title)) {
-                    articles.push(data);
-                    found.push(title);
+var wiki_1 = require("../services/wiki");
+var Game = /** @class */ (function () {
+    function Game() {
+        this.players = [];
+    }
+    Game.prototype.addPlayer = function (player) {
+        this.players.push(player);
+    };
+    Game.prototype.increasePlayerScore = function (player) {
+        this.players.forEach(function (cur) {
+            if (cur === player) {
+                cur.increaseScore();
+            }
+        });
+    };
+    Game.prototype.getHighestScore = function () {
+        var max = 0;
+        var maxPlayer;
+        this.players.forEach(function (player) {
+            if (player.getScore() > max) {
+                max = player.getScore();
+                maxPlayer = player;
+            }
+        });
+        return maxPlayer;
+    };
+    Game.prototype.setWikis = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var numPlayers, articles;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        numPlayers = this.players.length;
+                        return [4 /*yield*/, wiki_1["default"].getArticles(numPlayers)];
+                    case 1:
+                        articles = _a.sent();
+                        this.players.forEach(function (player) {
+                            var _a = articles.pop(), title = _a.title, source = _a.source, extract = _a.extract;
+                            player.setWiki(source, title, extract);
+                        });
+                        return [2 /*return*/];
                 }
-                return [3 /*break*/, 1];
-            case 3: return [2 /*return*/, articles];
-        }
-    });
-}); };
-exports["default"] = { getArticles: getArticles };
+            });
+        });
+    };
+    Game.prototype.getRandomArticle = function () {
+        //need to change this
+        return this.players[0].getWiki();
+    };
+    return Game;
+}());
+exports["default"] = Game;
